@@ -5,18 +5,21 @@ import random
 import time
 
 
+
 def crear_tablero(casillas=10):
     """
     Crea un tablero de juego de tamaño 10 
-    (salvo que se indique otra cosa) rellenado con '_'.
+    (salvo que se indique otra cosa) rellenado con "_".
+    - casillas: longitud de la matriz cuadrada
     """
-    return np.full((casillas, casillas), '_', dtype=str)
+    return np.full((casillas, casillas), "_", dtype=str)
 
 
 def ocultar_tablero(tablero):
     """
-    Oculta los barcos no tocados ('O') en el tablero.
-    Muestra solo los disparos acertados ('X') y los disparos al agua ('A').
+    Oculta los barcos no tocados ("O") en el tablero.
+    Muestra solo los disparos acertados ("X") y los disparos al agua ('A').
+    - Tablero: matriz en la que se juega
     """
     # Crear una copia del tablero para no modificar el original
     tablero_oculto = tablero.copy()
@@ -70,10 +73,10 @@ def colocar_barco(barco, tablero):
     """
     # Recorre la lista de tuplas (coordenadas del barco)
     for fila, columna in barco:
-        if tablero[fila, columna] != '_':   # Comprueba que en esa coordenada no hay un "_" 
+        if tablero[fila, columna] != "_":   # Comprueba que en esa coordenada no hay un "_" 
                                             # y devuelve el error con la información
             raise ValueError(f"Ya hay un barco en la posición ({fila}, {columna})")
-        tablero[fila, columna] = 'O'  # Si no hay barco coloca una "O" en esa posición
+        tablero[fila, columna] = "O"  # Si no hay barco coloca una "O" en esa posición
     return tablero
 
 
@@ -95,7 +98,7 @@ def verificar_hundido(casilla, tablero, barcos):
             if hundido:  # Si hundido lo hemos mantenido en True:
                 print("Tocado y hundido!")
             else:
-                print("Tocado!")
+                print("¡Tocado!")
 
 
 def disparar(casilla, tablero, barcos):
@@ -106,12 +109,12 @@ def disparar(casilla, tablero, barcos):
     """
 
     fila, columna = casilla
-    if tablero[fila, columna] == 'O': # Si en esa posicion hay una "O" lo marca con "X" e indica tocado
-        tablero[fila, columna] = 'X'
+    if tablero[fila, columna] == "O": # Si en esa posicion hay una "O" lo marca con "X" e indica tocado
+        tablero[fila, columna] = "X"
         verificar_hundido(casilla, tablero, barcos)
         resultado = "Tocado"     
-    elif tablero[fila, columna] == '_':  # Si en esa posicion hay un "_" la marca con "A" e indica agua
-        tablero[fila, columna] = 'A'  
+    elif tablero[fila, columna] == "_":  # Si en esa posicion hay un "_" la marca con "A" e indica agua
+        tablero[fila, columna] = "A" 
         resultado = "Agua"
         print(f"Agua!")
     
@@ -126,11 +129,10 @@ def disparar(casilla, tablero, barcos):
 
 def colocar_barcos(tablero):
     """
-    Coloca 6 barcos en el tablero.
+    Coloca 6 barcos en el tablero.     
+    Si ocurre un ValueError por superposición, resetea el tablero y vuelve a generar y colocar los barcos.
     - tablero: matriz donde se colocan los barcos
-    Crea y coloca todos los barcos enn el tablero.
-    Si ocurre un ValueError por superposición,
-    reintenta generar y colocar los barcos.
+
     """
     barcos = []
 
@@ -166,7 +168,10 @@ def colocar_barcos(tablero):
 
 
 def turno_ordenador(tablero_jugador):
-    """Genera unas coordenadas aleatorias del ordenador para disparar al tablero del jugador."""
+    """
+    Genera unas coordenadas aleatorias del ordenador para disparar al tablero del jugador.
+    - Tablero_jugador: matriz de juego donde están colocados los barcos del jugador
+    """
 
     longitud = tablero_jugador.shape[0]   # La longitud es igual al numero de columnas del tablero
 
@@ -180,7 +185,11 @@ def turno_ordenador(tablero_jugador):
 
 
 def tablero_legible(tablero):
-    """Muestra el tablero sin corchetes para que sea más visual."""
+    """
+    Muestra el tablero sin corchetes para que sea más visual.
+    - tablero: matriz donde están colocados barcos del jugador o del oponente
+
+    """
     
     resultado = ""
     for fila in tablero:
@@ -190,7 +199,9 @@ def tablero_legible(tablero):
 
 
 def chuleta():
-    """Genera una plantilla del tablero donde se indica el indice de cada fila y columna"""
+    """
+    Genera una plantilla del tablero donde se indica el indice de cada fila y columna.
+    """
 
     tablero_jugador = [["0 ", "_" , "_" , "_" , "_" , "_" , "_" , "_" , "_" , "_" , "_"],
             ["1 ", "_" , "_" , "_" , "_" , "_" , "_" , "_" , "_" , "_" , "_"],
